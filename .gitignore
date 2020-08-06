@@ -1,0 +1,6 @@
+commit.sh
+*.lock
+**/target
+temp*
+*.bin
+*.o
