@@ -5,7 +5,7 @@
 #![feature(global_asm)]
 #![feature(panic_info_message)]
 #![feature(alloc_error_handler)]
-
+#![feature(slice_fill)]
 global_asm!(include_str!("entry.asm"));
 
 extern crate alloc;
@@ -35,17 +35,6 @@ pub extern "C" fn rust_main(hartid: usize, sp: usize) -> ! {
     println!("_kernel_end = {:#x}", (kernel_end as usize) / 4096);
     //println!("{}", *memory::config::KERNEL_END_ADDRESS);
 
-    /*
-    for _ in 0..2 {
-        if let Ok(frame) = memory::frame::allocator::FRAME_ALLOCATOR.lock().alloc() {
-            println!("frame = {}", frame.0);
-        } else {
-            println!("allocation error!");
-        }
-        //println!("have a rest...");
-    }
-     */
-
     for _ in 0..2 {
         let frame_0 = match memory::frame::allocator::FRAME_ALLOCATOR.lock().alloc() {
             Result::Ok(frame_tracker) => frame_tracker,
@@ -57,6 +46,18 @@ pub extern "C" fn rust_main(hartid: usize, sp: usize) -> ! {
         };
         println!("{} and {}", frame_0.address(), frame_1.address());
     }
+    println!("xxxxxxxxxxxxxxxxxx");
+
+
+    /// 1.完成页表的映射
+    println!("{}", *memory::config::KERNEL_END_ADDRESS);
+
+    let remap = memory::mapping::MemorySet::new_kernel().unwrap();
+    // remap.activate();
+
+    // println!("{:?}",remap.mapping);
+
+
 
     interrupt::timer::init();
 
