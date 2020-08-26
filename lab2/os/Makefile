@@ -42,7 +42,7 @@ asm-view-x: kernel
 	rust-objdump -x $(kernel) | less
 
 asm-save: kernel
-	rust-objdump -d $(kernel) > asm
+	rust-objdump -S $(kernel) > asm
 	echo 'save disassembly to file asm'
 
 qemu: image
