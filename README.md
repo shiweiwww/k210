@@ -19,9 +19,9 @@
 ### note
   - #### 由于工作的异动，目前无太多时间在k210上完成相关的AI功能，现记录目前的进展以及后续的一些思路,方便感兴趣的同学可以接着完成
   - #### 目前已经可以k210上跑rcore(参考其他同学的代码即可)
-  - #### k210调试问题，maix go自带stm32芯片可以模拟jtags，但是默认的固件是open-ec，需要烧固件CMSIS-DAP，具体参考[https://cn.maixpy.sipeed.com/dev/zh/develop_kit_board/get_hardware.html?h=调试]，其他maix开发版调试参考文档[https://cn.maixpy.sipeed.com/dev/zh/develop_kit_board/get_hardware.html?h=调试]
+  - #### k210调试问题，maix go自带stm32芯片可以模拟jtags，但是默认的固件是open-ec，需要烧固件CMSIS-DAP，具体[参考](https://cn.maixpy.sipeed.com/dev/zh/develop_kit_board/get_hardware.html?h=调试)，其他maix开发版调试[参考文档](https://cn.maixpy.sipeed.com/dev/zh/develop_kit_board/get_hardware.html?h=调试)
   - #### TODO
-    - #### 1. k210支持maixpy[https://github.com/sipeed/MaixPy]，底层调用的是C的接口，最简单的方式安装riscv和c的交叉编译工具[https://github.com/riscv/riscv-gnu-toolchain]把k210的AI的C代码直接编译成elf文件，这个elf功能是对k210的AI硬件的管理,可能需要精简下代码，毕竟k210只有6M
+    - #### 1. k210支持[maixpy](https://github.com/sipeed/MaixPy)，底层调用的是C的接口，最简单的方式安装riscv和c的交叉[编译工具](https://github.com/riscv/riscv-gnu-toolchain),把k210的AI的C代码直接编译成elf文件，这个elf功能是对k210的AI硬件的管理,可能需要精简下代码，毕竟k210只有6M
     - #### 2. 步骤1把maixpy中的k210的AI硬件打包成elf，接下来下如何让rcore实现使用这个elf文件管理AI硬件,最底层都是riscv的汇编，一种方式使用rust的一些包直接调用(具体百度目前不清楚)；一种方式是直接写汇编调用即可，类似于c和x86汇编相互调用一样
     - #### 3. 经过步骤2,rcore可以管理起k210的AI相关的硬件功能了，在用户态写rust测试代码，添加系统调用就应该可以使用k210的AI相关的功能了
     - #### 4. 如何写rust或者c的测试代码，这个部分需要追踪maixpy应用层的代码，实现类似的操作就行，比如处理一张图片，拍照功能等
